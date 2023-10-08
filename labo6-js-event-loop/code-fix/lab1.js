@@ -1,5 +1,3 @@
-// TODO: Fix the errors in the functions below!
-
 const functions = {
   checkEventLoop() {
     console.log('this is the start');
@@ -10,35 +8,47 @@ const functions = {
 
     setTimeout(() => {
       console.log('Callback 2: this is a msg from call back');
-    }, 0);
+    }, 10);
 
     console.log('this is the end');
   },
 
   executeAfterDelay(callback, delay) {
     // use setTimeout
+    setTimeout(() => {
+      callback();
+    }, delay);
   },
 
-  executeInOrder(callback1, callback2) {},
+  executeInOrder(callback1, callback2) {
+    setTimeout(() => {
+      callback1();
+      setImmediate(() => callback2());
+    });
+  },
 
-  stopInterval(intervalId, callback) {},
+  stopInterval(intervalId, callback) {
+    clearInterval(intervalId, callback());
+  },
 
   executePromise(callback) {
     const promise = new Promise((resolve) => {
-      const result = {};
+      const result = { status: true, value: 'foo' };
       resolve(result);
     });
 
     setImmediate(() => {
-      promise.then();
+      promise.then((value) => {
+        callback(value);
+      });
     });
   },
 
   executePromises(callback) {
     const promises = [
+      new Promise((resolve) => setTimeout(() => resolve('first'), 250)),
       new Promise((resolve) => setTimeout(() => resolve('second'), 1000)),
       new Promise((resolve) => setTimeout(() => resolve('third'), 500)),
-      new Promise((resolve) => setTimeout(() => resolve('first'), 250)),
     ];
 
     Promise.all(promises).then(callback);

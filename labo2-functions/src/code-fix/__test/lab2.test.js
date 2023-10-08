@@ -75,7 +75,7 @@ describe("Test of Functions —lab2", () => {
 
   test("should return a new array and not modify the original array", () => {
     const array1 = [1, 2, 3];
-    const result = functions.helper5(array1, 0, -1);
+    const result = functions.helper4(array1, 0, -1);
     expect(result).not.toBe(array1);
     expect(array1).toEqual([1, 2, 3]);
   });
